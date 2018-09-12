@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Source+Code+Pro:400,600');
+
+html, html * {
+	font-family: 'Source Code Pro', monospace;
+	font-size: 18px;
+	font-weight:400;
+	color:rgba(30,50,40,1)
+}
+
+body {
+	margin:30px 50px;
+	background: rgba(180,255,200,.3)
+}
+
+h1 {
+	font-family: 'Abril Fatface', cursive;
+	font-size: 52px;
+	text-transform: uppercase;
+}
+
+h2 {
+	font-weight: 600;
+}
