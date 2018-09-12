@@ -6,6 +6,7 @@ import requests
 from decorators.decorators import html_page
 from flask import url_for
 from PIL import Image
+import random
 
 class DiscogsConnection:
 
@@ -68,11 +69,14 @@ class DiscogItem:
 			self.thumbnail = '/images/thumbnails/holly_genero.jpg'
 
 	def preview(self):
+		red = random.randint(0, 255)
+		green = random.randint(0, 255)
+		blue = random.randint(0, 255)
 		preview = f"""
 			<div class="preview" id="artist_{self.id}">
 				<h2>{self.title}</h2>
 				<div class="image" style='background-image: url("{self.thumbnail}")'></div>
-				<div class="overlay"></div>
+				<div class="overlay" style="background:rgba({red},{green},{blue},.25)"></div>
 			</div>
 		"""
 		return preview
