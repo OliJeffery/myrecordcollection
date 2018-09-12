@@ -24,6 +24,8 @@ h1 {
     margin: 0;
     padding: 12px;
     font-weight: 600;
+    font-size:14px;
+    border-bottom:5px solid rgb(240,40,30);
 }
 
 h2 {
@@ -31,20 +33,55 @@ h2 {
 }
 
 .preview {
-	background-color: rgb(200,200,100);
+	background-color: rgb(200,200,200);
 	height:200px;
 	width:200px;
+	float:left;
+    margin: 0; padding: 0;
+}
+
+.preview .image {
 	background-repeat: no-repeat;
     background-size: cover;
-    float:left;
-    margin: 0; padding: 0;
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+    height:200px;
+    width:200px;
+    z-index:1;
+    position: absolute;
+}
+
+.preview .overlay {
+	background: rgba(255,0,0,.25);
+	height:100%; width:100%;
+	z-index: 2;
+	position: relative;
 }
 
 .preview h2 {
 	display: inline-block;
+	margin-top:1em;
     background: rgba(255,255,255,.7);
     float: left;
-    padding: 5px;
+    position: relative;
+    padding: 5px 5px 5px 15px;
     width: 75%;
-    font-size: 13px
+    font-size: 13px;
+    z-index: 3;
 }
+
+.preview:hover {
+	transform: scale(1.125);
+    z-index: 999;
+    position: relative;
+    cursor: pointer;
+ }
+
+ .preview:hover .overlay {
+ 	display: none;
+ }
+
+ .preview:hover .image {
+ 	filter: none;
+ 	-webkit-filter:none;
+ }

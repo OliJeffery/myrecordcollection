@@ -8,7 +8,9 @@ from flask import url_for
 from PIL import Image
 
 class DiscogsConnection:
+
 	"""Connects to the Discogs API"""
+	
 	def __init__(self):
 		with open('credentials/credentials.json') as credentials:
 			json_creds = json.loads(credentials.read())
@@ -41,9 +43,8 @@ class DiscogsConnection:
 	def format_results(self, results):
 		html = ''
 		for result in results:
-			if(result['type']=='artist'):
-				artist = Artist(result)
-				html+=artist.preview()
+			item = DiscogItem(result)
+			html+=item.preview()
 		return html
 
 	@html_page
@@ -51,48 +52,36 @@ class DiscogsConnection:
 		return "Hello world"
 
 class DiscogItem:
-	pass
 
-class Artist:
-	"""Returns an artist object"""
-	def __init__(self, artist):
-		self.title = artist['title']
-		self.id = artist['id']
-		self.thumb = artist['thumb']
-		self.uri = artist['uri']
-		self.resource_url = artist['resource_url']
+	def __init__(self, item):
+		self.title = item['title']
+		self.id = item['id']
+		self.resource_url = item['resource_url']
 		thumb_path = f'/images/thumbnails/thumbnail_{self.id}.jpg'
 		if path.exists(thumb_path):
 			# Uses an existing thumbnail if one exists
 			self.thumbnail = thumb_path
-		elif artist['cover_image'] != 'https://img.discogs.com/images/spacer.gif':
+		elif item['cover_image'] != 'https://img.discogs.com/images/spacer.gif':
 			# Saves and uses a new thumbnail if none exits
-			self.thumbnail = image_from_url(artist['cover_image'], f'thumbnail_{self.id}', '/thumbnails/', True)
+			self.thumbnail = image_from_url(item['cover_image'], f'thumbnail_{self.id}', '/thumbnails/', True)
 		else:
 			self.thumbnail = '/images/thumbnails/holly_genero.jpg'
-		
 
 	def preview(self):
 		preview = f"""
-			<div class="preview" id="artist_{self.id}" style='background-image: url("{self.thumbnail}")';>
-				<a href='{self.resource_url}'>
-					<h2>{self.title}</h2>
-				</a>
+			<div class="preview" id="artist_{self.id}">
+				<h2>{self.title}</h2>
+				<div class="image" style='background-image: url("{self.thumbnail}")'></div>
+				<div class="overlay"></div>
 			</div>
 		"""
 		return preview
 
-	def artist_profile(self):
-		html = f"""
-			<div class="artist" id="artist_{self.id}">
-				<h2>{self.title}</h2>
-				<a href='{self.resource_url}'>
-					<img src='{self.cover_image}'>
-				</a>
-			</div>
-		"""
-		return html
+class Artist(DiscogItem):
+	"""Returns an artist object"""
 
+
+		
 def image_from_url(image_url, name, folder = '/', thumbnail=False):
 	"""Saves an image and writes it"""
 	image_data = requests.get(image_url).content
