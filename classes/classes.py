@@ -61,10 +61,9 @@ class Artist:
 
 	def preview(self):
 		preview = f"""
-			<div class="artist" id="artist_{self.id}">
-				<h2>{self.title}</h2>
+			<div class="preview" id="artist_{self.id}" style='background-image: url("{self.cover_image}")';>
 				<a href='{self.resource_url}'>
-					<img src='/{self.cover_image}'>
+					<h2>{self.title}</h2>
 				</a>
 			</div>
 		"""
@@ -87,4 +86,4 @@ def image_from_url(image_url, name, folder = '/'):
 	image_path = f'images{folder}{name}.jpg'
 	with open(image_path, 'wb+') as saved_image:
 		saved_image.write(image_data)
-	return f'{image_path}'
+	return f'/{image_path}'
