@@ -1,9 +1,11 @@
 """ Gets a user token which we can use to make further requests """
 
 import json
+from os import path
 import requests
 from decorators.decorators import html_page
 from flask import url_for
+from PIL import Image
 
 class DiscogsConnection:
 	"""Connects to the Discogs API"""
@@ -48,6 +50,8 @@ class DiscogsConnection:
 	def home(self):
 		return "Hello world"
 
+class DiscogItem:
+	pass
 
 class Artist:
 	"""Returns an artist object"""
@@ -56,12 +60,21 @@ class Artist:
 		self.id = artist['id']
 		self.thumb = artist['thumb']
 		self.uri = artist['uri']
-		self.cover_image = image_from_url(artist['cover_image'], f'thumbnail_{self.id}', '/thumbnails/')
 		self.resource_url = artist['resource_url']
+		thumb_path = f'/images/thumbnails/thumbnail_{self.id}.jpg'
+		if path.exists(thumb_path):
+			# Uses an existing thumbnail if one exists
+			self.thumbnail = thumb_path
+		elif artist['cover_image'] != 'https://img.discogs.com/images/spacer.gif':
+			# Saves and uses a new thumbnail if none exits
+			self.thumbnail = image_from_url(artist['cover_image'], f'thumbnail_{self.id}', '/thumbnails/', True)
+		else:
+			self.thumbnail = '/images/thumbnails/holly_genero.jpg'
+		
 
 	def preview(self):
 		preview = f"""
-			<div class="preview" id="artist_{self.id}" style='background-image: url("{self.cover_image}")';>
+			<div class="preview" id="artist_{self.id}" style='background-image: url("{self.thumbnail}")';>
 				<a href='{self.resource_url}'>
 					<h2>{self.title}</h2>
 				</a>
@@ -80,10 +93,14 @@ class Artist:
 		"""
 		return html
 
-def image_from_url(image_url, name, folder = '/'):
+def image_from_url(image_url, name, folder = '/', thumbnail=False):
 	"""Saves an image and writes it"""
 	image_data = requests.get(image_url).content
 	image_path = f'images{folder}{name}.jpg'
 	with open(image_path, 'wb+') as saved_image:
 		saved_image.write(image_data)
+	if thumbnail:
+		new_image = Image.open(image_path)
+		new_image.thumbnail((500, 500), Image.ANTIALIAS)
+		new_image.save(image_path)	
 	return f'/{image_path}'
