@@ -64,7 +64,7 @@ class Artist:
 			<div class="artist" id="artist_{self.id}">
 				<h2>{self.title}</h2>
 				<a href='{self.resource_url}'>
-					<img src='{self.cover_image}'>
+					<img src='/{self.cover_image}'>
 				</a>
 			</div>
 		"""

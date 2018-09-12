@@ -17,7 +17,7 @@ def css():
 # IMAGES
 @app.route('/images/<path:folder>/<path:filename>')
 def image_path(filename, folder):
-	return send_from_directory(f'/images/{folder}', filename)
+	return send_from_directory(f'images/{folder}', filename)
 
 # ROUTING
 
