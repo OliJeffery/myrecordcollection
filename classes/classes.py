@@ -11,7 +11,7 @@ import random
 class DiscogsConnection:
 
 	"""Connects to the Discogs API"""
-	
+
 	def __init__(self):
 		with open('credentials/credentials.json') as credentials:
 			json_creds = json.loads(credentials.read())
@@ -27,7 +27,7 @@ class DiscogsConnection:
 			'type':'artist,master',
 			#'sort':'year',
 			'sort_order':'desc',
-			'per_page':'15'
+			#'per_page':'15'
 		}
 		url = f"{self.url_base}database/search"
 		request = requests.get(url, params=params)
@@ -87,7 +87,7 @@ class Artist(DiscogItem):
 	"""Returns an artist object"""
 
 
-		
+
 def image_from_url(image_url, name, folder = '/', thumbnail=False):
 	"""Saves an image and writes it"""
 	image_data = requests.get(image_url).content
@@ -97,5 +97,5 @@ def image_from_url(image_url, name, folder = '/', thumbnail=False):
 	if thumbnail:
 		new_image = Image.open(image_path)
 		new_image.thumbnail((500, 500), Image.ANTIALIAS)
-		new_image.save(image_path)	
+		new_image.save(image_path)
 	return f'/{image_path}'
