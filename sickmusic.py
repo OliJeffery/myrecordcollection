@@ -34,3 +34,6 @@ def page_search_results():
 def page_artist(artist_id):
 	pass
 
+@app.route('/static/<path:folder>/<path:filename>')
+def static_files(filename, folder):
+	return send_from_directory(f'static/{folder}', filename)
