@@ -1,16 +1,16 @@
-$( document ).ready( 
+$( document ).ready(
 	function() {
 		var thumbs = $('.image')
-		var time = 500;
+		var time = 10;
 		thumbs.each(
 			function() {
 				var currentImage = $(this);
-				setTimeout(function() {					
+				setTimeout(function() {
 					var lazyImage = currentImage.data('lazyLoad');
 					currentImage.prop('style','background-image: url("'+lazyImage+'")');
 					console.log(lazyImage);
 				},time);
-				time += 500;
+				time += 10;
 			}
 		)
 	}
