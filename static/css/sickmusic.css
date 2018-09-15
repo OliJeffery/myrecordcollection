@@ -47,13 +47,36 @@ form#search input {
 
 .preview {
 	background-color: rgb(200,200,200);
-	height:250px;
-	width:250px;
+    width:20%;
 	float:left;
     margin: 0; padding: 0;
     transition: all .2s ease-out
 }
 
+@media screen and (max-width: 1050px) {
+  .preview {
+    width:25%;
+  }
+}
+
+
+@media screen and (max-width: 785px) {
+  .preview {
+    width:33%;
+  }
+}
+
+@media screen and (max-width: 666px) {
+  form#search {
+    margin-left:0;
+  }
+}
+
+@media screen and (max-width: 545px) {
+  .preview {
+    width:50%;
+  }
+}
 .preview .image {
 	background-repeat: no-repeat;
     background-size: cover;
@@ -93,10 +116,19 @@ form#search input {
  }
 
  .preview:hover .overlay {
- 	opacity: 0
+    opacity:0;
  }
+
+ /*.preview:hover .overlay {
+ 	opacity: 0
+ }*/
 
  .preview:hover .image {
  	filter: none;
  	-webkit-filter:none;
+ }
+
+ section#content {
+    opacity: 0;
+    transition: opacity ease-in 1.5s;
  }

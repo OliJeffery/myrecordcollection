@@ -63,8 +63,12 @@ class DiscogItem:
 		self.id = item['id']
 		self.resource_url = item['resource_url']
 		thumb_path = f'/images/thumbnails/thumbnail_{self.id}.jpg'
-		self.thumbnail = item['thumb']
-		self.cover_image = item['cover_image']
+		if item['cover_image'] != 'https://img.discogs.com/images/spacer.gif':
+			self.cover_image = item['cover_image']
+			self.thumbnail = item['thumb']
+		else:
+			self.cover_image = ''
+			self.thumbnail = ''
 		print(item)
 
 	def preview(self):
@@ -85,17 +89,3 @@ class DiscogItem:
 
 class Artist(DiscogItem):
 	"""Returns an artist object"""
-
-
-
-def image_from_url(image_url, name, folder = '/', thumbnail=False):
-	"""Saves an image and writes it"""
-	image_data = requests.get(image_url).content
-	image_path = f'images{folder}{name}.jpg'
-	with open(image_path, 'wb+') as saved_image:
-		saved_image.write(image_data)
-	if thumbnail:
-		new_image = Image.open(image_path)
-		new_image.thumbnail((500, 500), Image.ANTIALIAS)
-		new_image.save(image_path)
-	return f'/{image_path}'
