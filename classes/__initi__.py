@@ -1,1 +1,2 @@
-from classes import DiscogsConnection, Artist
+import .discogs
+import .release

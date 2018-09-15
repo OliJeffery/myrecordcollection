@@ -7,6 +7,8 @@ from decorators.decorators import html_page
 from flask import url_for
 from PIL import Image
 import random
+import re
+
 
 class DiscogsConnection:
 
@@ -69,23 +71,20 @@ class DiscogItem:
 		else:
 			self.cover_image = ''
 			self.thumbnail = ''
-		print(item)
+		self.type = item['type']
 
 	def preview(self):
 		red = random.randint(150, 255)
-		#green = random.randint(30, 255)
-		#blue = random.randint(50, 255)
-		green=30
-		blue=30
+		green = random.randint(30, 50)
+		blue = random.randint(30, 50)
 		tranlucence = (random.randint(35,55))/100
+		self.pretty_url = f'/{self.type}s/'+re.sub('[^a-zA-Z\d-]', '', self.title).lower()
+		self.full_url = f"{self.pretty_url}/{self.id}"
 		preview = f"""
-			<div class="preview" id="artist_{self.id}">
+			<div class="preview" id="preview_{self.id}" data-resource-url='{self.resource_url}' data-full-url='{self.full_url}' data-title='{self.title}' data-pretty-url='{self.pretty_url}'>
 				<h2>{self.title}</h2>
 				<div class="image" data-lazy-load='{self.cover_image}' style='background-image: url("{self.thumbnail}")'></div>
 				<div class="overlay" style="background:rgba({red},{green},{blue},{tranlucence})"></div>
 			</div>
 		"""
 		return preview
-
-class Artist(DiscogItem):
-	"""Returns an artist object"""

@@ -31,5 +31,12 @@ function resizeGrid() {
 	console.log('Grid resized');
 }
 
+$(document).on('click','.preview', 
+	function() {
+		data = $(this).data();
+		fullUrl = data.fullUrl;
+		window.location.href = fullUrl;
+	}
+);
 
-console.log('Only sick music makes money nowadays')
+console.log('Only sick music makes money today.')

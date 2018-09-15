@@ -5,6 +5,8 @@ from flask import send_from_directory
 from sick_pages import pages
 from PIL import Image
 
+BASE_URL = 'https://api.discogs.com'
+
 app = Flask(__name__)
 
 # CSS
@@ -37,3 +39,8 @@ def page_artist(artist_id):
 @app.route('/static/<path:folder>/<path:filename>')
 def static_files(filename, folder):
 	return send_from_directory(f'static/{folder}', filename)
+
+@app.route('/<path:item_type>/<path:title>/<path:resource_id>')
+def basic_page(item_type,title,resource_id):
+	resource_url = f"{BASE_URL}/{item_type}/{resource_id}"
+	return pages.master_page(resource_url)
