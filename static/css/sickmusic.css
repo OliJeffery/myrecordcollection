@@ -132,3 +132,16 @@ form#search input {
     opacity: 0;
     transition: opacity ease-in 1.5s;
  }
+
+ img.release_cover {
+    height: 420px;
+    width:420px;
+    max-width: 100%;
+    float:left;
+    margin-right:2em;
+ }
+
+ h2 {
+    font-weight: 600;
+    font-weight14px;
+ }

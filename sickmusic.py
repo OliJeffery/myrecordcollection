@@ -2,45 +2,28 @@ import pathlib
 from flask import Flask
 from flask import request as params
 from flask import send_from_directory
-from sick_pages import pages
-from PIL import Image
+from sick_classes.search import Search
+from sick_classes.page import Page
 
-BASE_URL = 'https://api.discogs.com'
-
-app = Flask(__name__)
-
-# CSS
-
-@app.route('/css/sickmusic.css')
-def css():
-	with open('css/sickmusic.css') as css:
-		return css.read()
-
-# IMAGES
-@app.route('/images/<path:folder>/<path:filename>')
-def image_path(filename, folder):
-	return send_from_directory(f'images/{folder}', filename)
+APP = Flask(__name__)
 
 # ROUTING
 
-@app.route('/')
-def page_home():
-	return pages.page('whut')
-
-@app.route('/search/')
+@APP.route('/search/')
 def page_search_results():
 	search_string = params.args['s']
-	return pages.search_results(search_string)
+	search_results = Search()
+	html = search_results.return_results(search_string=search_string)
+	return html
 
-@app.route('/artist/')
-def page_artist(artist_id):
-	pass
-
-@app.route('/static/<path:folder>/<path:filename>')
+@APP.route('/static/<path:folder>/<path:filename>')
 def static_files(filename, folder):
 	return send_from_directory(f'static/{folder}', filename)
 
-@app.route('/<path:item_type>/<path:title>/<path:resource_id>')
-def basic_page(item_type,title,resource_id):
-	resource_url = f"{BASE_URL}/{item_type}/{resource_id}"
-	return pages.master_page(resource_url)
+@APP.route('/masters/<path:title>/<path:resource_id>')
+def masters_page(title,resource_id):
+	resource_url = f"/masters/{resource_id}?title={title}"
+	page = Page(resource_url=resource_url)
+	return page.release_page()
+
+	

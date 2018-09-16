@@ -1,7 +1,7 @@
 def html_page(body_html):
-	def wrapper(results):
+	def wrapper(*args, **kwargs):
 		header = open('html/header.html').read()
 		footer = open('html/footer.html').read()
-		html = body_html(results)
+		html = body_html(*args, **kwargs)
 		return header+html+footer
 	return wrapper
