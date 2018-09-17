@@ -1,1 +1,1 @@
-from .decorators import html_page
+from .decorators import html_page, list_widget

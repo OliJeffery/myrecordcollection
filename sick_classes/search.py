@@ -9,7 +9,7 @@ class Search(DiscogsConnection):
 	def return_results(self, search_string):
 		params = {
 			'q':search_string,
-			'type':'artist,master',
+			'type':'artist,release',
 			'sort_order':'desc',
 			#'per_page':'15'
 		}

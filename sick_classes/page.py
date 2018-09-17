@@ -1,7 +1,7 @@
 """Release class"""
 
 from sick_classes.discogs import DiscogsConnection
-from sick_decorators import html_page
+from sick_decorators import html_page, list_widget
 
 class Page(DiscogsConnection):
 
@@ -21,16 +21,16 @@ class Page(DiscogsConnection):
 		#
 		#release_resource['genre']
 		#release_resource['artists']
-		#release_resource['released']
-		#release_resource['tracklist']
 		
 		release_cover = release_resource['images'][0]['uri']
 		tracklist = self.get_tracklist(release_resource['tracklist'])
+		artists = release_resource['artists']
+		artists_list = self.get_artists_list(artists)
 		html = f"""
 			<img src='{release_cover}' class='release_cover' />
-			<h2>{release_resource['title']} ({release_resource['released']})</h2>
+			<h2>{release_resource['title']} ({release_resource['released']}) by {artists_list}</h2>
 			{tracklist}
-			{release_resource['artists']}
+			
 		"""
 
 
@@ -41,4 +41,11 @@ class Page(DiscogsConnection):
 		for track in tracklist:
 			list_version.append(f"{track['title']}")
 		html = '<ol><li>'+'</li><li>'.join(list_version)+'</li></ol>'
+		return html
+
+	def get_artists_list(self, artists):
+		list_version = []
+		for artist in artists:
+			list_version.append(f"{artist['name']}")
+		html = ', '.join(list_version)
 		return html

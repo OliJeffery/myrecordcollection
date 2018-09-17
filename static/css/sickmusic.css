@@ -134,9 +134,9 @@ form#search input {
  }
 
  img.release_cover {
-    height: 420px;
     width:420px;
     max-width: 100%;
+    height:auto;
     float:left;
     margin-right:2em;
  }
