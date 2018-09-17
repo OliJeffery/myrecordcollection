@@ -11,9 +11,9 @@ class Page(DiscogsConnection):
 
 	@html_page
 	def release_page(self):
-		master_resource = self.get_resource(self.resource_url, authenticate=False)
-		main_release_url = master_resource['main_release_url']
-		release_resource = self.get_resource(main_release_url, full_url=True)
+		release_resource = self.get_resource(self.resource_url, authenticate=True)
+		#main_release_url = master_resource['main_release_url']
+		#release_resource = self.get_resource(main_release_url, full_url=True)
 		#release_resource['videos']
 		#release_resource['labels']
 		#release_resource['year']

@@ -20,9 +20,9 @@ def page_search_results():
 def static_files(filename, folder):
 	return send_from_directory(f'static/{folder}', filename)
 
-@APP.route('/masters/<path:title>/<path:resource_id>')
+@APP.route('/releases/<path:title>/<path:resource_id>')
 def masters_page(title,resource_id):
-	resource_url = f"/masters/{resource_id}?title={title}"
+	resource_url = f"/releases/{resource_id}?title={title}"
 	page = Page(resource_url=resource_url)
 	return page.release_page()
 

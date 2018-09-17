@@ -9,7 +9,7 @@ class Search(DiscogsConnection):
 	def return_results(self, search_string):
 		params = {
 			'q':search_string,
-			'type':'artist,release',
+			'type':'artist,release,master',
 			'sort_order':'desc',
 			#'per_page':'15'
 		}
@@ -17,10 +17,23 @@ class Search(DiscogsConnection):
 		search_results = self.get_resource(url, params)
 		pagination = search_results['pagination']
 		results = search_results['results']
-		if(len(results)>0):
+		parsed_results = {
+			"artist":[],
+			"master":[],
+			"release":[]
+		}
+		if len(results)>0:
 			html = ''
 			for result in results:
-				html+=self.preview(result)
+				#html+=self.preview(result)
+				parsed_results[result['type']].append(result)
+			if len(parsed_results['master']) > 0:
+				for master in parsed_results['master']:
+					master_title = master['title']
+					master_url = master['resource_url']
+					master_record = self.get_resource(endpoint=master_url, authenticate=False, full_url=True)
+					html+=str(master_record['main_release'])
+				#html = str(parsed_results)
 			return html
 		else:
 			return "Huh?"			
@@ -40,5 +53,3 @@ class Search(DiscogsConnection):
 			</div>
 		"""
 		return preview
-
-
