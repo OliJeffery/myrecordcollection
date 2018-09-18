@@ -5,10 +5,3 @@ def html_page(body_html):
 		html = body_html(*args, **kwargs)
 		return header+html+footer
 	return wrapper
-
-def list_widget(func):
-	def wrapper(*args, **kwargs):
-		list_version = []
-		func(*args, **kwargs)
-		return html
-	return wrapper

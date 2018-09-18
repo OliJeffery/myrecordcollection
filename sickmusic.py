@@ -2,28 +2,20 @@ import pathlib
 from flask import Flask
 from flask import request as params
 from flask import send_from_directory
-from sick_classes.search import Search
-from sick_classes.page import Page
+from sick_classes.spotify_connection import SpotifyConnection
+from sick_decorators import html_page
 
 APP = Flask(__name__)
 
 # ROUTING
 
-@APP.route('/search/')
-def page_search_results():
-	search_string = params.args['s']
-	search_results = Search()
-	html = search_results.return_results(search_string=search_string)
-	return html
-
 @APP.route('/static/<path:folder>/<path:filename>')
 def static_files(filename, folder):
 	return send_from_directory(f'static/{folder}', filename)
 
-@APP.route('/releases/<path:title>/<path:resource_id>')
-def masters_page(title,resource_id):
-	resource_url = f"/releases/{resource_id}?title={title}"
-	page = Page(resource_url=resource_url)
-	return page.release_page()
-
-	
+@APP.route('/search/')
+@html_page
+def search():
+	search_string = params.args['s']
+	spotify = SpotifyConnection()
+	return str(spotify.search(search_string))

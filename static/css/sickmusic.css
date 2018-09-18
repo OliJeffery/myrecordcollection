@@ -127,11 +127,11 @@ form#search input {
  	filter: none;
  	-webkit-filter:none;
  }
-
+/*
  section#content {
     opacity: 0;
     transition: opacity ease-in 1.5s;
- }
+ }*/
 
  img.release_cover {
     width:420px;

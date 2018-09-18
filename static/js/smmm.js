@@ -1,7 +1,7 @@
 $( document ).ready(
 	function() {
 		resizeGrid()
-		$('#content').attr('style','opacity:1; transition: opacity 1s ease-in;');
+/*		$('#content').attr('style','opacity:1; transition: opacity 1s ease-in;');*/
 	}
 )
 
@@ -24,8 +24,7 @@ function resizeGrid() {
 			square_width = square.width();
 			square.height(square_width);
 			currentImage = square.find('.image');
-			var lazyImage = currentImage.data('lazyLoad');
-			currentImage.prop('style','background-image: url("'+lazyImage+'");').width(square_width).height(square_width);
+			currentImage.width(square_width).height(square_width);
 		}
 	);
 	console.log('Grid resized');
