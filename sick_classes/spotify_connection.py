@@ -34,22 +34,40 @@ class SpotifyConnection:
 		payload = {'q':query,'type':'artist,album','limit':'50'}
 		results = self.make_request('search', payload)
 		html = ''
-		#for artist in results['artists']['items']:
-		#	html+=self.preview(artist)
 		html+=self.preview(results['artists']['items'][0])
 		for album in results['albums']['items']:
 			html+=self.preview(album)
 		return html
 
 	def preview(self, item):
-		red = random.randint(150, 255)
-		green = random.randint(30, 50)
-		blue = random.randint(30, 50)
 		tranlucence = (random.randint(35,55))/100
-		pretty_url = f"/{item['type']}s/"+re.sub('[^a-zA-Z\d-]', '-', item['name']).lower()
+		item_type = item['type']
+		if item_type=='album':
+			item_type = item['album_type']
+		if item_type == 'artist':
+			red = random.randint(30, 50)
+			green = random.randint(30, 50)
+			blue = random.randint(150, 255)		
+		elif item_type == 'album':
+			red = random.randint(150, 255)
+			green = random.randint(30, 50)
+			blue = random.randint(30, 50)		
+		elif item_type == 'single':
+			red = random.randint(30, 50)
+			green = random.randint(150, 255)
+			blue = random.randint(30, 50)
+		else:
+			red = random.randint(30, 50)
+			green = random.randint(30, 50)
+			blue = random.randint(30, 50)
+		
+		
+
+		pretty_url = f"/{item_type}s/"+re.sub('[^a-zA-Z\d-]', '-', item['name']).lower()
 		full_url = f"{pretty_url}/{item['id']}"
 		try:
-			release_year = " ("+item['release_date'].split('-')[0]+")"
+			just_the_year = item['release_date'].split('-')[0]
+			release_year = " ("+just_the_year+")"
 		except:
 			release_year = ''
 

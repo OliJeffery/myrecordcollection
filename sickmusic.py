@@ -13,9 +13,13 @@ APP = Flask(__name__)
 def static_files(filename, folder):
 	return send_from_directory(f'static/{folder}', filename)
 
-@APP.route('/search/')
+@APP.route('/')
 @html_page
-def search():
-	search_string = params.args['s']
-	spotify = SpotifyConnection()
-	return str(spotify.search(search_string))
+def home():
+	try:
+		search_string = params.args['s']
+		spotify = SpotifyConnection()
+		return str(spotify.search(search_string))
+	except KeyError:
+		return('Home sweet home')
+	
