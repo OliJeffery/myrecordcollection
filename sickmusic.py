@@ -15,6 +15,7 @@ def static_files(filename, folder):
 
 @APP.route('/')
 @html_page
+<<<<<<< HEAD
 def home():
 	try:
 		search_string = params.args['s']
@@ -23,3 +24,9 @@ def home():
 	except KeyError:
 		return('Home sweet home')
 	
+=======
+def search():
+	search_string = params.args['s']
+	spotify = SpotifyConnection()
+	return str(spotify.search(search_string))
+>>>>>>> be5dc705b22ddc4d93e029dfd3b173e977001273

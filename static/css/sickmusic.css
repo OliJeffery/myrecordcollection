@@ -47,10 +47,15 @@ form#search input {
 
 .preview {
 	background-color: rgb(200,200,200);
-    width:20%;
+    width:10%;
 	float:left;
     margin: 0; padding: 0;
     transition: all .2s ease-out
+}
+@media screen and (max-width: 1800px) {
+  .preview {
+    width:16.66666666%;
+  }
 }
 
 @media screen and (max-width: 1050px) {

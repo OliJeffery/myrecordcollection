@@ -21,9 +21,9 @@ class SpotifyConnection:
 	def get_token(self):
 		body_params = {'grant_type' : 'client_credentials'}
 		url = self.accounts_url+'token'
-		response=requests.post(url, data=body_params, auth = (self.client_id, self.client_secret)) 
+		response=requests.post(url, data=body_params, auth = (self.client_id, self.client_secret))
 		return response.json()['access_token']
-	
+
 	def make_request(self, request, params=None):
 		url = self.base_url+request
 		headers = {'Authorization':f'Bearer {self.token}'}
@@ -31,8 +31,9 @@ class SpotifyConnection:
 		return response.json()
 
 	def search(self, query):
-		payload = {'q':query,'type':'artist,album','limit':'50'}
+		payload = {'q':query, 'type':'artist,album', 'limit':'15', 'market':'GB'}
 		results = self.make_request('search', payload)
+		#html = str(results)
 		html = ''
 		html+=self.preview(results['artists']['items'][0])
 		for album in results['albums']['items']:
