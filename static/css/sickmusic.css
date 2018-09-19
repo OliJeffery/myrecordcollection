@@ -52,9 +52,17 @@ form#search input {
     margin: 0; padding: 0;
     transition: all .2s ease-out
 }
+
 @media screen and (max-width: 1800px) {
   .preview {
     width:16.66666666%;
+  }
+}
+
+
+@media screen and (max-width: 1450px) {
+  .preview {
+    width:20%;
   }
 }
 

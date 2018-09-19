@@ -30,10 +30,17 @@ class SpotifyConnection:
 		response = requests.get(url,headers=headers,params=params)
 		return response.json()
 
+	def release(self, resource_id):
+		endpoint = f'albums/{resource_id}'
+		#return str(self.make_request(endpoint))
+		release = self.make_request(endpoint)
+		release_cover = release['images'][0]['url']
+		html = f"<img class='release_cover' src='{release_cover}'>"
+		return html
+
 	def search(self, query):
 		payload = {'q':query, 'type':'artist,album', 'limit':'15', 'market':'GB'}
 		results = self.make_request('search', payload)
-		#html = str(results)
 		html = ''
 		html+=self.preview(results['artists']['items'][0])
 		for album in results['albums']['items']:
@@ -60,11 +67,12 @@ class SpotifyConnection:
 		else:
 			red = random.randint(30, 50)
 			green = random.randint(30, 50)
-			blue = random.randint(30, 50)
-		
-		
-
-		pretty_url = f"/{item_type}s/"+re.sub('[^a-zA-Z\d-]', '-', item['name']).lower()
+			blue = random.randint(30, 50)		
+		if 'artists' in item.keys():
+			artist = item['artists'][0]['name']
+		else:
+			artist = ''
+		pretty_url = (re.sub('[^a-zA-Z\d-]', '-', artist) + '/' + re.sub('[^a-zA-Z\d-]', '-', item['name'])).lower()
 		full_url = f"{pretty_url}/{item['id']}"
 		try:
 			just_the_year = item['release_date'].split('-')[0]
@@ -79,7 +87,6 @@ class SpotifyConnection:
 				cover_image = item['images'][0]['url']
 			except IndexError:
 				cover_image = ''
-
 		preview = f"""
 			<div class="preview" id="preview_{item['id']}" data-resource-url='{item['href']}' data-full-url='{full_url}' data-title='{item['name']}' data-pretty-url='{pretty_url}'>
 				<h2>{item['name']} {release_year}</h2>
