@@ -22,6 +22,24 @@ header {
     top:0;
 }
 
+header .profile_pic {
+    height: 50px;
+    width: 50px;
+    background-size: cover;
+    border-radius: 50px;
+    float: right;
+}
+
+header .login {
+    background: rgb(240,40,30);
+    float: right;
+    padding: 1em;
+    border-radius: 3em;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
 h1 {
 	text-transform: uppercase;
     font-weight: 600;

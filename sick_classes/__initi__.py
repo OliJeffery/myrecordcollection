@@ -1,3 +1,4 @@
 from .spotify_connection import SpotifyConnection
-#from .page import Page
-#from .search import Search
+from .spotify_search import SpotifySearch
+from .spotify_render import SpotifyRender
+from .spotify_user import SpotifyUser
